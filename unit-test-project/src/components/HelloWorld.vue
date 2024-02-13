@@ -1,7 +1,13 @@
 <script setup lang="ts">
-defineProps<{
-  msg: string
-}>()
+import { watch } from 'vue';
+
+const props = defineProps({
+  msg: String
+})
+
+watch(() => props.msg, (value) => {
+  fetch(`https://example.com/${value}`);
+})
 </script>
 
 <template>
