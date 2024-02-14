@@ -1,31 +1,38 @@
 <script setup lang="ts">
-import { watch } from 'vue';
-//import axios from 'axios';
-import { useAppStore } from '@/stores/appStore.ts';
+import { computed, watch } from 'vue';
+import axios from 'axios';
+//import { useAppStore } from '@/stores/appStore.ts';
+import TitleComponent from './TitleComponent.vue';
 
 const props = defineProps({
   msg: String
 });
 
-const { changeMessage } = useAppStore();
+const prefixMessage = computed(() => {
+    return `My Title: ${props.msg}`;
+});
+
+//const { changeMessage } = useAppStore();
 
 // watch(() => props.msg, (value) => {
 //   fetch(`https://example.com/${value}`);
 // })
 
-// watch(() => props.msg, (value) => {
-//   axios.get('https://httpbin.org/get');
-// });
-
-watch(() => props.msg, (value) => {
-  changeMessage(value);
+watch(() => props.msg, () => {
+  axios.get('https://httpbin.org/get');
 });
+
+// watch(() => props.msg, (value) => {
+//   changeMessage(value);
+// });
 
 </script>
 
 <template>
   <div class="greetings">
     <h1 class="green">{{ msg }}</h1>
+    <title-component :text="prefixMessage"></title-component>
+
     <h3>
       You’ve successfully created a project with
       <a href="https://vitejs.dev/" target="_blank" rel="noopener">Vite</a> +

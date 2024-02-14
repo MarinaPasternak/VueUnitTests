@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from 'vitest';
 
 import { mount, shallowMount } from '@vue/test-utils';
 import HelloWorld from '../HelloWorld.vue';
+import TitleComponent from '../TitleComponent.vue';
 import axios from 'axios';
 import { createTestingPinia } from '@pinia/testing';
 import { useAppStore } from '@/stores/appStore';
@@ -38,19 +39,29 @@ describe('HelloWorld test suits', () => {
   //   expect(axios.get).toHaveBeenNthCalledWith( 1, 'https://httpbin.org/get');
   // });
 
-  it('should dispatch changeMessage with "test" msg property changed as "test"', async () => {
-    const instance = shallowMount(HelloWorld, {
-      global: {
-        plugins: [createTestingPinia()]
-      }
-    });
+//   it('should dispatch changeMessage with "test" msg property changed as "test"', async () => {
+//     const instance = shallowMount(HelloWorld, {
+//       global: {
+//         plugins: [createTestingPinia()]
+//       }
+//     });
 
-    const store = useAppStore();
+//     const store = useAppStore();
 
-    await instance.setProps({
-      msg: 'test'
-    });
+//     await instance.setProps({
+//       msg: 'test'
+//     });
 
-    expect(store.changeMessage).toHaveBeenNthCalledWith( 1, 'test');
-  });
+//     expect(store.changeMessage).toHaveBeenNthCalledWith( 1, 'test');
+//   });
+
+      it('should bind the message property with a prefix to component', () => {
+        const wrapper = shallowMount(HelloWorld, {
+            props: { msg: 'First section' }
+        });
+
+        const titleComponentWrapper = wrapper.findComponent(TitleComponent);
+
+        expect(titleComponentWrapper.props('text')).toBe('My Title: First section');
+      });
 })
