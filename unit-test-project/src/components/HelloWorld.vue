@@ -1,17 +1,26 @@
 <script setup lang="ts">
 import { watch } from 'vue';
-import axios from 'axios';
+//import axios from 'axios';
+import { useAppStore } from '@/stores/appStore.ts';
 
 const props = defineProps({
   msg: String
-})
+});
+
+const { changeMessage } = useAppStore();
 
 // watch(() => props.msg, (value) => {
 //   fetch(`https://example.com/${value}`);
 // })
+
+// watch(() => props.msg, (value) => {
+//   axios.get('https://httpbin.org/get');
+// });
+
 watch(() => props.msg, (value) => {
-  axios.get('https://httpbin.org/get');
-})
+  changeMessage(value);
+});
+
 </script>
 
 <template>
