@@ -1,12 +1,33 @@
 <script setup lang="ts">
-import { computed, watch } from 'vue';
+import { ref, computed, watch } from 'vue';
 import axios from 'axios';
 //import { useAppStore } from '@/stores/appStore.ts';
 import TitleComponent from './TitleComponent.vue';
 
-const props = defineProps({
-  msg: String
-});
+export interface HelloWorldProps {
+  msg?: string
+};
+
+const props = defineProps<HelloWorldProps>();
+
+const emit = defineEmits<{
+  (e: 'card-clicked'): void,
+  (e: 'up', count: number): void
+}>();
+
+const count =  ref(0);
+
+const increment = () => {
+  count.value++;
+};
+
+const handleTitleMounted = () => {
+  emit('up', count.value)
+};
+
+const handleCardClick = () => {
+  emit('card-clicked')
+};
 
 const prefixMessage = computed(() => {
     return `My Title: ${props.msg}`;
@@ -34,7 +55,12 @@ watch(() => props.msg, () => {
     <title-component 
       :text="prefixMessage"
       v-if="msg"
+      @on-mounted="handleTitleMounted"
     ></title-component>
+
+    <div class="card" @click="handleCardClick">
+      <button type="button" @click="increment">count is {{ count }}</button>
+    </div>
 
     <h3>
       You’ve successfully created a project with

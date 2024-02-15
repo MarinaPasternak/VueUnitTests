@@ -1,13 +1,15 @@
 import { describe, it, expect, vi } from 'vitest';
 
 import { mount, shallowMount } from '@vue/test-utils';
-import HelloWorld from '../HelloWorld.vue';
+import HelloWorld, { type HelloWorldProps } from '../HelloWorld.vue';
 import TitleComponent from '../TitleComponent.vue';
 import axios from 'axios';
 import { createTestingPinia } from '@pinia/testing';
 import { useAppStore } from '@/stores/appStore';
 
 vi.mock('axios');
+
+const createWrapper = (props?: HelloWorldProps) => shallowMount(HelloWorld, {props});
 
 describe('HelloWorld', () => {
   it('renders properly', () => {
@@ -77,5 +79,23 @@ describe('HelloWorld test suits', () => {
       const titleComponentWrapper = wrapper.findComponent(TitleComponent);
 
       expect(titleComponentWrapper.exists()).toBe(isTitleComponentExist);
+    });
+
+    it('should emit card-clicked when the card is clicked', async () => {
+      const wrapper = createWrapper();
+      const card = wrapper.find('.card');
+
+      await card.trigger('click');
+
+      expect(wrapper.emitted('card-clicked')).toBeTruthy();
+    });
+
+    it('should emit up event when title component on-mounted event', () => {
+      const wrapper = createWrapper({ msg: 'First section' });
+      const titleComponentWrapper = wrapper.findComponent(TitleComponent);
+
+      titleComponentWrapper.vm.$emit('on-mounted');
+
+      expect(wrapper.emitted('up')).toBeTruthy();
     });
 })
