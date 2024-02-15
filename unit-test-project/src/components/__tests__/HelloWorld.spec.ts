@@ -55,13 +55,27 @@ describe('HelloWorld test suits', () => {
 //     expect(store.changeMessage).toHaveBeenNthCalledWith( 1, 'test');
 //   });
 
-      it('should bind the message property with a prefix to component', () => {
-        const wrapper = shallowMount(HelloWorld, {
-            props: { msg: 'First section' }
-        });
-
-        const titleComponentWrapper = wrapper.findComponent(TitleComponent);
-
-        expect(titleComponentWrapper.props('text')).toBe('My Title: First section');
+    it('should bind the message property with a prefix to component', () => {
+      const wrapper = shallowMount(HelloWorld, {
+          props: { msg: 'First section' }
       });
+
+      const titleComponentWrapper = wrapper.findComponent(TitleComponent);
+
+      expect(titleComponentWrapper.props('text')).toBe('My Title: First section');
+    });
+
+    it.each([
+      { msg: 'First section', isTitleComponentExist: true },
+      { msg: undefined, isTitleComponentExist: false },
+      { msg: '', isTitleComponentExist: false }
+    ])('when msg value is: $msg -> isTitleComponentExist: $isTitleComponentExist ', ({ msg, isTitleComponentExist }) => {
+      const wrapper = shallowMount(HelloWorld, {
+          props: { msg }
+      });
+
+      const titleComponentWrapper = wrapper.findComponent(TitleComponent);
+
+      expect(titleComponentWrapper.exists()).toBe(isTitleComponentExist);
+    });
 })

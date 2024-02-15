@@ -31,7 +31,10 @@ watch(() => props.msg, () => {
 <template>
   <div class="greetings">
     <h1 class="green">{{ msg }}</h1>
-    <title-component :text="prefixMessage"></title-component>
+    <title-component 
+      :text="prefixMessage"
+      v-if="msg"
+    ></title-component>
 
     <h3>
       You’ve successfully created a project with
