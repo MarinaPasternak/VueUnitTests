@@ -15,6 +15,14 @@ describe('AboutView', () => {
       titleComponentWrapper.vm.$emit('on-mounted', 'test');
 
       expect(store.changeMessage).toHaveBeenCalledWith('test');
+    });
 
-    })
+    it('should change the title when the titleComponent emit click event', async () => {
+        const wrapper = wrapperFactory(AboutViewVue);
+        const titleComponentWrapper = wrapper.findComponent(TitleComponent);
+
+        await titleComponentWrapper.vm.$emit('click');
+        
+        expect(titleComponentWrapper.props('text')).toBe('About !!!');
+    });
   });
