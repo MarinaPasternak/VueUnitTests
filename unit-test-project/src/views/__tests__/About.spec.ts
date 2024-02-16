@@ -25,4 +25,18 @@ describe('AboutView', () => {
         
         expect(titleComponentWrapper.props('text')).toBe('About !!!');
     });
+
+    it('should emit new-message event when myMessage changes', async () => {
+        const wrapper = wrapperFactory(AboutViewVue);
+        const store = useAppStore();
+
+        store.message = 'This is a new message';
+
+        await wrapper.vm.$nextTick();
+
+        expect(wrapper.emitted('new-message')).toBeTruthy();
+        expect(wrapper.emitted('new-message')?.[0][0]).toBe('the message: This is a new message');
+        expect(wrapper.emitted('new-message')).toHaveLength(1);
+        
+    });
   });
