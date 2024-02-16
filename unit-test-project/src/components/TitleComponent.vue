@@ -1,5 +1,21 @@
 <script setup lang="ts">
-defineProps<{ text: string }>()
+import { onMounted } from 'vue';
+
+
+export interface TitleComponentProps {
+  text: string
+};
+
+defineProps<TitleComponentProps>();
+
+const emit = defineEmits<{
+    (e: 'on-mounted', payload: string): void
+}>()
+
+onMounted(() => {
+    emit('on-mounted', 'test')
+});
+
 </script>
 
 <template>
