@@ -23,7 +23,7 @@ watch(fullMessage, () => {
 <template>
   <main>
     <TheWelcome />
-    <TitleComponent :text="'Home'"></TitleComponent>
+    <TitleComponent :text="store.message"></TitleComponent>
     <button @click="goToAbout">Go to About</button>
   </main>
 </template>

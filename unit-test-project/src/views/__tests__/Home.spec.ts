@@ -3,6 +3,7 @@ import { shallowMount } from '@vue/test-utils';
 import HomeViewVue from '../HomeView.vue';
 import { useAppStore } from '@/stores/appStore';
 import wrapperFactory from '@/utiles/wrapperFactory'
+import TitleComponentVue from '@/components/TitleComponent.vue';
 
 const push = vi.fn();
 
@@ -36,5 +37,16 @@ describe('HomeView', () => {
 
         expect(store.changeMessage).toHaveBeenCalledOnce();
         expect(store.changeMessage).toHaveBeenCalledWith('Test');
+    });
+
+    it('should bind correctly the state message with the value of TitleComponent', async () => {
+        const titleComponentWrapper = wrapper.findComponent(TitleComponentVue);
+
+        const store = useAppStore();
+
+        await store.$patch({ message: 'This is a new Title' });
+        await wrapper.vm.$nextTick();
+
+        expect(titleComponentWrapper.props('text')).toBe('This is a new Title');
     });
 });
