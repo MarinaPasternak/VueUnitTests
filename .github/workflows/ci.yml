@@ -1,6 +1,6 @@
 name: 'Coverage on PR'
 on: 
-  pus
+  push
 
 jobs:
   test:
