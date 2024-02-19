@@ -17,7 +17,14 @@ let wrapper = wrapperFactory(HomeViewVue);
 
 describe('HomeView', () => {
     beforeEach(() => {
-        wrapper = wrapperFactory(HomeViewVue);
+        wrapper = wrapperFactory(HomeViewVue, {
+            global: {
+              stubs: {
+                renderStubDefaultSlot: true,
+                TitleComponentVue
+              }
+            }
+          });
     });
 
     it('should go to the about view when clicked on button', async () => {
@@ -48,5 +55,16 @@ describe('HomeView', () => {
         await wrapper.vm.$nextTick();
 
         expect(titleComponentWrapper.props('text')).toBe('This is a new Title');
+    });
+
+    it('should fill the default slot of the TitleComponent', async () => {
+        const store = useAppStore();
+
+        await store.$patch({ message: 'test' });
+        await wrapper.vm.$nextTick();
+
+        console.log(wrapper.html());
+        
+        expect(wrapper.text()).toContain('Fill the default slot');
     });
 });

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 
-
 export interface TitleComponentProps {
   text: string
 };
@@ -20,7 +19,7 @@ onMounted(() => {
 
 <template>
     <div>
-        <h1>{{ text }}</h1>
+        <h1><slot>{{ text }}</slot></h1>
     </div>
 </template>
 
