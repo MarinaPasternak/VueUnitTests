@@ -38,7 +38,6 @@ describe('HomeView', () => {
 
     it('should dispatch changeMessage action when fullMessage changes', async () => {
         const store = useAppStore();
-
         store.message = 'This is a new value';
         await wrapper.vm.$nextTick();
 
@@ -48,7 +47,6 @@ describe('HomeView', () => {
 
     it('should bind correctly the state message with the value of TitleComponent', async () => {
         const titleComponentWrapper = wrapper.findComponent(TitleComponentVue);
-
         const store = useAppStore();
 
         await store.$patch({ message: 'This is a new Title' });

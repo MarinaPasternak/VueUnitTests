@@ -98,4 +98,4 @@ describe('HelloWorld test suits', () => {
 
       expect(wrapper.emitted('up')).toBeTruthy();
     });
-})
+});
