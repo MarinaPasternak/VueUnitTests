@@ -41,7 +41,7 @@ describe('AboutView', () => {
 
     it('should get the user on https://server.com/user will payload as { id: 123 } when the getter changed', async () => {
       const wrapper = wrapperFactory(AboutViewVue);  
-    const store = useAppStore();
+      const store = useAppStore();
       global.fetch = vi.fn();
 
       await store.$patch({ message: 'This is a new message' });
