@@ -1,6 +1,6 @@
 name: 'Coverage on PR'
 on: 
-  pull_request:
+  push:
 
 jobs:
   test:
