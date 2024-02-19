@@ -3,11 +3,18 @@ import { ref, watch } from 'vue';
 import TitleComponent from '@/components/TitleComponent.vue';
 import { useAppStore } from '@/stores/appStore';
 import { storeToRefs } from 'pinia';
+import { pick } from 'lodash';
 
 const store = useAppStore();
 const emit = defineEmits<{
   (e: 'new-message', value: string): void
 }>();
+
+const user = ref({
+  id: 123,
+  firstName: 'Maryna',
+  lastName: 'Lastname'
+});
 
 const { changeMessage } = useAppStore();
 
@@ -21,6 +28,17 @@ watch(fullMessage, (value) => {
   }
 
   emit('new-message', value);
+});
+
+watch(fullMessage, (value) => {
+  if(!value) {
+    return;
+  }
+
+  fetch('https://server.com/user', {
+    method: 'POST',
+    body: JSON.stringify(pick(user.value, 'id'))
+  })
 });
 </script>
 

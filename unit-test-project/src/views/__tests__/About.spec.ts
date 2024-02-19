@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 import { useAppStore } from '@/stores/appStore';
 import AboutViewVue from '../AboutView.vue';
@@ -37,6 +37,20 @@ describe('AboutView', () => {
         expect(wrapper.emitted('new-message')).toBeTruthy();
         expect(wrapper.emitted('new-message')?.[0][0]).toBe('the message: This is a new message');
         expect(wrapper.emitted('new-message')).toHaveLength(1);
-        
+    });
+
+    it('should get the user on https://server.com/user will payload as { id: 123 } when the getter changed', async () => {
+      const wrapper = wrapperFactory(AboutViewVue);  
+    const store = useAppStore();
+      global.fetch = vi.fn();
+
+      await store.$patch({ message: 'This is a new message' });
+
+      await wrapper.vm.$nextTick();
+
+      expect(fetch).toHaveBeenCalledWith('https://server.com/user', {
+        method: 'POST',
+        body: "{\"id\":123}"
+      });
     });
   });
